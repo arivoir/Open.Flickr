@@ -230,6 +230,8 @@ namespace Open.Flickr
         public Number Comments { get; set; }
         [DataMember(Name = "visibility", IsRequired = false)]
         public Visibility Visibility { get; set; }
+        [DataMember(Name = "usage")]
+        public Usage Usage { get; set; }
     }
 
     [DataContract]
@@ -237,6 +239,22 @@ namespace Open.Flickr
     {
         [DataMember(Name = "_content", IsRequired = false)]
         public int Value { get; set; }
+    }
+
+    [DataContract]
+    public class Usage
+    {
+        [DataMember(Name = "candownload")]
+        public bool CanDownload { get; set; }
+
+        [DataMember(Name = "canblog")]
+        public bool CanBlog { get; set; }
+
+        [DataMember(Name = "canprint")]
+        public bool CanPrint { get; set; }
+
+        [DataMember(Name = "canshare")]
+        public bool CanShare { get; set; }
     }
 
     [DataContract]
