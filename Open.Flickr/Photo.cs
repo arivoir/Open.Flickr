@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Open.Flickr
 {
@@ -34,6 +36,15 @@ namespace Open.Flickr
     {
         [DataMember(Name = "photo", IsRequired = false)]
         public Photo2 Photo { get; set; }
+        [DataMember(Name = "stat", IsRequired = false)]
+        public string Stat { get; set; }
+    }
+
+    public class PhotoSizeResult
+    {
+        [DataMember(Name = "sizes", IsRequired = false)]
+        public PhotoSizeCollection Sizes { get; set; }
+
         [DataMember(Name = "stat", IsRequired = false)]
         public string Stat { get; set; }
     }
@@ -230,8 +241,47 @@ namespace Open.Flickr
         public Number Comments { get; set; }
         [DataMember(Name = "visibility", IsRequired = false)]
         public Visibility Visibility { get; set; }
-        [DataMember(Name = "usage")]
+        [DataMember(Name = "usage", IsRequired = false)]
         public Usage Usage { get; set; }
+
+        // note that this seems to only ever have one item in it, so is a faux collection
+        [DataMember(Name = "urls", IsRequired = false)]
+        public Urls Urls { get; set; }
+    }
+
+    [DataContract]
+    public class PhotoSize
+    {
+        [DataMember(Name = "label")]
+        public string Label { get; set; }
+
+        [DataMember(Name = "width")]
+        public int Width { get; set; }
+
+        [DataMember(Name = "height")]
+        public int Height { get; set; }
+
+        [DataMember(Name = "source")]
+        public string Source { get; set; }
+
+        [DataMember(Name = "media")]
+        public string Media { get; set; }
+    }
+
+    [DataContract]
+    public class PhotoSizeCollection
+    {
+        [DataMember(Name = "canblog")]
+        public bool CanBlog { get; set; }
+
+        [DataMember(Name = "canprint")]
+        public bool CanPrint { get; set; }
+
+        [DataMember(Name = "candownload")]
+        public bool CanDownload { get; set; }
+
+        [DataMember(Name = "size")]
+        public List<PhotoSize> Sizes { get; set; }
     }
 
     [DataContract]
@@ -239,6 +289,22 @@ namespace Open.Flickr
     {
         [DataMember(Name = "_content", IsRequired = false)]
         public int Value { get; set; }
+    }
+
+    public class Url
+    {
+        [DataMember(Name = "type", IsRequired = false)]
+        public string Type { get; set; }
+
+        public string _content { get; set; }
+
+        public string Value => _content;
+    }
+
+    public class Urls
+    {
+        [DataMember(Name = "url", IsRequired = false)]
+        public List<Url> Url { get; set; }
     }
 
     [DataContract]

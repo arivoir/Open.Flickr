@@ -4,6 +4,7 @@ using Open.OAuth;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -91,12 +92,39 @@ namespace Open.Flickr
             var response = await client.GetAsync(uri, cancellationToken);
             if (response.IsSuccessStatusCode)
             {
-                return (await response.Content.ReadJsonAsync<PhotoResult>()).Photo;
+                PhotoResult result = await response.Content.ReadJsonAsync<PhotoResult>();
+
+                if (result.Stat == "ok")
+                {
+                    return result.Photo;
+                }
             }
-            else
+
+            throw await ProcessException(response.Content);
+        }
+
+        public async Task<PhotoSizeCollection> GetPhotoSizesAsync(string photoId, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            var parameters = new Dictionary<string, string>
             {
-                throw await ProcessException(response.Content);
+                { "photo_id", photoId },
+            };
+
+            var uri = BuildApiUri("flickr.photos.getSizes", parameters: parameters);
+            var client = CreateClient();
+            var response = await client.GetAsync(uri, cancellationToken);
+
+            if (response.IsSuccessStatusCode)
+            {
+                PhotoSizeResult result = await response.Content.ReadJsonAsync<PhotoSizeResult>();
+
+                if (result.Stat == "ok")
+                {
+                    return result.Sizes;
+                }
             }
+
+            throw await ProcessException(response.Content);
         }
 
         public async Task<Photosets> GetPhotosetsAsync(int page, int perPage, CancellationToken cancellationToken = default(CancellationToken))
@@ -518,7 +546,16 @@ namespace Open.Flickr
             parameters.Add("format", "json");
             parameters.Add("method", method);
             parameters.Add("nojsoncallback", "1");
-            return new Uri(OAuthClient.CreateOAuthUrl(_apiServiceUri, _oauthConsumerKey, _oauthConsumerKeySecret, _accessToken, _accessTokenSecret, mode: mode, parameters: parameters));
+
+            if (!string.IsNullOrEmpty(_oauthConsumerKey))
+            {
+                return new Uri(OAuthClient.CreateOAuthUrl(_apiServiceUri, _oauthConsumerKey, _oauthConsumerKeySecret, _accessToken, _accessTokenSecret, mode: mode, parameters: parameters));
+            }
+
+            parameters.Add("api_key", _accessToken);
+            List<string> keys = parameters.Select(p => $"{p.Key}={p.Value}").ToList();
+
+            return new Uri($"{_apiServiceUri}?{string.Join("&", keys)}");
         }
 
         private static HttpClient CreateClient()
@@ -530,7 +567,7 @@ namespace Open.Flickr
 
         private async Task<Exception> ProcessException(HttpContent content)
         {
-            return new Exception(await content.ReadAsStringAsync());
+            return new FlickrException(0, await content.ReadAsStringAsync());
         }
 
         #endregion
