@@ -25,11 +25,28 @@ namespace Open.Flickr
         private string _oauthConsumerKeySecret;
         private string _accessToken;
         private string _accessTokenSecret;
+        private string _apiKey;
 
         #endregion
 
         #region ** initialization
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FlickrClient"/> class.
+        /// </summary>
+        /// <param name="apiKey">The API key used to authenticate requests.</param>
+        public FlickrClient(string apiKey)
+        {
+            _apiKey = apiKey;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FlickrClient"/> class.
+        /// </summary>
+        /// <param name="oauthConsumerKey">The oauth consumer key.</param>
+        /// <param name="oauthConsumerKeySecret">The oauth consumer key secret.</param>
+        /// <param name="accessToken">The access token.</param>
+        /// <param name="accessTokenSecret">The access token secret.</param>
         public FlickrClient(string oauthConsumerKey, string oauthConsumerKeySecret, string accessToken, string accessTokenSecret)
         {
             _oauthConsumerKey = oauthConsumerKey;
@@ -551,11 +568,13 @@ namespace Open.Flickr
             {
                 return new Uri(OAuthClient.CreateOAuthUrl(_apiServiceUri, _oauthConsumerKey, _oauthConsumerKeySecret, _accessToken, _accessTokenSecret, mode: mode, parameters: parameters));
             }
+            else
+            {
+                parameters.Add("api_key", _apiKey);
+                List<string> keys = parameters.Select(p => $"{p.Key}={p.Value}").ToList();
 
-            parameters.Add("api_key", _accessToken);
-            List<string> keys = parameters.Select(p => $"{p.Key}={p.Value}").ToList();
-
-            return new Uri($"{_apiServiceUri}?{string.Join("&", keys)}");
+                return new Uri($"{_apiServiceUri}?{string.Join("&", keys)}");
+            }
         }
 
         private static HttpClient CreateClient()
