@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
@@ -6,6 +6,8 @@
     <Authors>Alvaro Rivoir</Authors>
     <Description>.Net Standard Flickr library</Description>
     <Version>1.0.1</Version>
+    <LangVersion>8.0</LangVersion> 
+    <NullableReferenceTypes>true</NullableReferenceTypes>
   </PropertyGroup>
 
   <ItemGroup>

@@ -8,45 +8,45 @@ namespace Open.Flickr
     public class PhotosetsResult
     {
         [DataMember(Name = "photosets", IsRequired = false)]
-        public Photosets photosets { get; set; }
+        public Photosets? Photosets { get; set; }
         [DataMember(Name = "stat", IsRequired = false)]
-        public string Stat { get; set; }
+        public string? Stat { get; set; }
     }
 
     [DataContract]
     public class PhotosetResult
     {
         [DataMember(Name = "photoset", IsRequired = false)]
-        public Photoset2 photoset { get; set; }
+        public Photoset2? Photoset { get; set; }
         [DataMember(Name = "stat", IsRequired = false)]
-        public string Stat { get; set; }
+        public string? Stat { get; set; }
     }
 
     [DataContract]
     public class PhotosResult
     {
         [DataMember(Name = "photos", IsRequired = false)]
-        public Photoset Photos { get; set; }
+        public Photoset? Photos { get; set; }
         [DataMember(Name = "stat", IsRequired = false)]
-        public string Stat { get; set; }
+        public string? Stat { get; set; }
     }
 
     [DataContract]
     public class PhotoResult
     {
         [DataMember(Name = "photo", IsRequired = false)]
-        public Photo2 Photo { get; set; }
+        public Photo2? Photo { get; set; }
         [DataMember(Name = "stat", IsRequired = false)]
-        public string Stat { get; set; }
+        public string? Stat { get; set; }
     }
 
     public class PhotoSizeResult
     {
         [DataMember(Name = "sizes", IsRequired = false)]
-        public PhotoSizeCollection Sizes { get; set; }
+        public PhotoSizeCollection? Sizes { get; set; }
 
         [DataMember(Name = "stat", IsRequired = false)]
-        public string Stat { get; set; }
+        public string? Stat { get; set; }
     }
 
     [DataContract]
@@ -63,20 +63,20 @@ namespace Open.Flickr
         [DataMember(Name = "total", IsRequired = false)]
         public int Total { get; set; }
         [DataMember(Name = "photoset", IsRequired = false)]
-        public Photoset[] Photoset { get; set; }
+        public Photoset[]? Photoset { get; set; }
     }
 
     [DataContract]
     public class Photoset
     {
         [DataMember(Name = "id", IsRequired = false)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [DataMember(Name = "primary", IsRequired = false)]
-        public string Primary { get; set; }
+        public string? Primary { get; set; }
         [DataMember(Name = "secret", IsRequired = false)]
-        public string Secret { get; set; }
+        public string? Secret { get; set; }
         [DataMember(Name = "server", IsRequired = false)]
-        public string Server { get; set; }
+        public string? Server { get; set; }
         [DataMember(Name = "farm", IsRequired = false)]
         public int Farm { get; set; }
         [DataMember(Name = "photos", IsRequired = false)]
@@ -84,9 +84,9 @@ namespace Open.Flickr
         [DataMember(Name = "videos", IsRequired = false)]
         public int Videos { get; set; }
         [DataMember(Name = "title", IsRequired = false)]
-        public Text Title { get; set; }
+        public Text? Title { get; set; }
         [DataMember(Name = "description", IsRequired = false)]
-        public Text Description { get; set; }
+        public Text? Description { get; set; }
         [DataMember(Name = "needs_interstitial", IsRequired = false)]
         public int NeedsInterstitial { get; set; }
         [DataMember(Name = "visibility_can_see_set", IsRequired = false)]
@@ -98,15 +98,15 @@ namespace Open.Flickr
         [DataMember(Name = "can_comment", IsRequired = false)]
         public int CanComment { get; set; }
         [DataMember(Name = "date_create", IsRequired = false)]
-        public string DateCreate { get; set; }
+        public string? DateCreate { get; set; }
         [DataMember(Name = "date_update", IsRequired = false)]
-        public string DateUpdate { get; set; }
+        public string? DateUpdate { get; set; }
         [DataMember(Name = "owner", IsRequired = false)]
-        public string Owner { get; set; }
+        public string? Owner { get; set; }
         [DataMember(Name = "ownername", IsRequired = false)]
-        public string OwnerName { get; set; }
+        public string? OwnerName { get; set; }
         [DataMember(Name = "photo", IsRequired = false)]
-        public Photo[] List { get; set; }
+        public Photo[]? List { get; set; }
         [DataMember(Name = "page", IsRequired = false)]
         public int Page { get; set; }
         [DataMember(Name = "pages", IsRequired = false)]
@@ -121,13 +121,13 @@ namespace Open.Flickr
     public class Photoset2
     {
         [DataMember(Name = "id", IsRequired = false)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [DataMember(Name = "primary", IsRequired = false)]
-        public string Primary { get; set; }
+        public string? Primary { get; set; }
         [DataMember(Name = "secret", IsRequired = false)]
-        public string Secret { get; set; }
+        public string? Secret { get; set; }
         [DataMember(Name = "server", IsRequired = false)]
-        public string Server { get; set; }
+        public string? Server { get; set; }
         [DataMember(Name = "farm", IsRequired = false)]
         public int Farm { get; set; }
         [DataMember(Name = "photos", IsRequired = false)]
@@ -135,7 +135,7 @@ namespace Open.Flickr
         [DataMember(Name = "videos", IsRequired = false)]
         public int Videos { get; set; }
         [DataMember(Name = "title", IsRequired = false)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [DataMember(Name = "needs_interstitial", IsRequired = false)]
         public bool NeedsInterstitial { get; set; }
         [DataMember(Name = "visibility_can_see_set", IsRequired = false)]
@@ -147,15 +147,15 @@ namespace Open.Flickr
         [DataMember(Name = "can_comment", IsRequired = false)]
         public bool CanComment { get; set; }
         [DataMember(Name = "date_create", IsRequired = false)]
-        public string DateCreate { get; set; }
+        public string? DateCreate { get; set; }
         [DataMember(Name = "date_update", IsRequired = false)]
-        public string DateUpdate { get; set; }
+        public string? DateUpdate { get; set; }
         [DataMember(Name = "owner", IsRequired = false)]
-        public string Owner { get; set; }
+        public string? Owner { get; set; }
         [DataMember(Name = "ownername", IsRequired = false)]
-        public string OwnerName { get; set; }
+        public string? OwnerName { get; set; }
         [DataMember(Name = "photo", IsRequired = false)]
-        public Photo[] List { get; set; }
+        public Photo[]? List { get; set; }
         [DataMember(Name = "page", IsRequired = false)]
         public int Page { get; set; }
         [DataMember(Name = "pages", IsRequired = false)]
@@ -170,19 +170,19 @@ namespace Open.Flickr
     public class Photo
     {
         [DataMember(Name = "id", IsRequired = false)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [DataMember(Name = "secret", IsRequired = false)]
-        public string Secret { get; set; }
+        public string? Secret { get; set; }
         [DataMember(Name = "server", IsRequired = false)]
-        public string Server { get; set; }
+        public string? Server { get; set; }
         [DataMember(Name = "farm", IsRequired = false)]
         public int Farm { get; set; }
         [DataMember(Name = "title", IsRequired = false)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [DataMember(Name = "description", IsRequired = false)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
         [DataMember(Name = "isprimary", IsRequired = false)]
-        public string IsPrimary { get; set; }
+        public string? IsPrimary { get; set; }
         [DataMember(Name = "ispublic", IsRequired = false)]
         public int IsPublic { get; set; }
         [DataMember(Name = "isfriend", IsRequired = false)]
@@ -190,35 +190,35 @@ namespace Open.Flickr
         [DataMember(Name = "isfamily", IsRequired = false)]
         public int IsFamily { get; set; }
         [DataMember(Name = "safety_level", IsRequired = false)]
-        public string SafetyLevel { get; set; }
+        public string? SafetyLevel { get; set; }
         [DataMember(Name = "content_type", IsRequired = false)]
-        public string ContentType { get; set; }
+        public string? ContentType { get; set; }
         [DataMember(Name = "hidden", IsRequired = false)]
-        public string Hidden { get; set; }
+        public string? Hidden { get; set; }
         [DataMember(Name = "latitude", IsRequired = false)]
         public double Latitude { get; set; }
         [DataMember(Name = "longitude", IsRequired = false)]
         public double Longitude { get; set; }
         [DataMember(Name = "dateupload", IsRequired = false)]
-        public string DateUpload { get; set; }
+        public string? DateUpload { get; set; }
         [DataMember(Name = "owner", IsRequired = false)]
-        public string Owner { get; set; }
+        public string? Owner { get; set; }
         [DataMember(Name = "ownername", IsRequired = false)]
-        public string OwnerName { get; set; }
+        public string? OwnerName { get; set; }
     }
     [DataContract]
     public class Photo2
     {
         [DataMember(Name = "id", IsRequired = false)]
-        public string Id { get; set; }
+        public string? Id { get; set; }
         [DataMember(Name = "secret", IsRequired = false)]
-        public string Secret { get; set; }
+        public string? Secret { get; set; }
         [DataMember(Name = "server", IsRequired = false)]
-        public string Server { get; set; }
+        public string? Server { get; set; }
         [DataMember(Name = "farm", IsRequired = false)]
         public int Farm { get; set; }
         [DataMember(Name = "dateuploaded", IsRequired = false)]
-        public string DateUploaded { get; set; }
+        public string? DateUploaded { get; set; }
         [DataMember(Name = "isfavorite", IsRequired = false)]
         public int Isfavorite { get; set; }
         [DataMember(Name = "license", IsRequired = false)]
@@ -228,32 +228,32 @@ namespace Open.Flickr
         [DataMember(Name = "rotation", IsRequired = false)]
         public int Rotation { get; set; }
         [DataMember(Name = "originalsecret", IsRequired = false)]
-        public string OriginalSecret { get; set; }
+        public string? OriginalSecret { get; set; }
         [DataMember(Name = "originalformat", IsRequired = false)]
-        public string OriginalFormat { get; set; }
+        public string? OriginalFormat { get; set; }
         [DataMember(Name = "owner", IsRequired = false)]
-        public User2 Owner { get; set; }
+        public User2? Owner { get; set; }
         [DataMember(Name = "title", IsRequired = false)]
-        public Text Title { get; set; }
+        public Text? Title { get; set; }
         [DataMember(Name = "description", IsRequired = false)]
-        public Text Description { get; set; }
+        public Text? Description { get; set; }
         [DataMember(Name = "comments", IsRequired = false)]
-        public Number Comments { get; set; }
+        public Number? Comments { get; set; }
         [DataMember(Name = "visibility", IsRequired = false)]
-        public Visibility Visibility { get; set; }
+        public Visibility? Visibility { get; set; }
         [DataMember(Name = "usage", IsRequired = false)]
-        public Usage Usage { get; set; }
+        public Usage? Usage { get; set; }
 
         // note that this seems to only ever have one item in it, so is a faux collection
         [DataMember(Name = "urls", IsRequired = false)]
-        public Urls Urls { get; set; }
+        public Urls? Urls { get; set; }
     }
 
     [DataContract]
     public class PhotoSize
     {
         [DataMember(Name = "label")]
-        public string Label { get; set; }
+        public string? Label { get; set; }
 
         [DataMember(Name = "width")]
         public int Width { get; set; }
@@ -262,10 +262,10 @@ namespace Open.Flickr
         public int Height { get; set; }
 
         [DataMember(Name = "source")]
-        public string Source { get; set; }
+        public string? Source { get; set; }
 
         [DataMember(Name = "media")]
-        public string Media { get; set; }
+        public string? Media { get; set; }
     }
 
     [DataContract]
@@ -281,7 +281,7 @@ namespace Open.Flickr
         public bool CanDownload { get; set; }
 
         [DataMember(Name = "size")]
-        public List<PhotoSize> Sizes { get; set; }
+        public List<PhotoSize>? Sizes { get; set; }
     }
 
     [DataContract]
@@ -294,17 +294,17 @@ namespace Open.Flickr
     public class Url
     {
         [DataMember(Name = "type", IsRequired = false)]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
-        public string _content { get; set; }
+        public string? _content { get; set; }
 
-        public string Value => _content;
+        public string? Value => _content;
     }
 
     public class Urls
     {
         [DataMember(Name = "url", IsRequired = false)]
-        public List<Url> Url { get; set; }
+        public List<Url>? Url { get; set; }
     }
 
     [DataContract]

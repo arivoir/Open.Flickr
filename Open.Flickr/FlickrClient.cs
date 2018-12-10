@@ -16,16 +16,16 @@ namespace Open.Flickr
     {
         #region ** fields
 
-        private static string _requestTokenUri = "https://www.flickr.com/services/oauth/request_token";
-        private static string _authorizeUri = "https://secure.flickr.com/services/oauth/authorize?oauth_token={0}&perms={1}";
-        private static string _accessTokenUri = "https://www.flickr.com/services/oauth/access_token";
+        private static readonly string _requestTokenUri = "https://www.flickr.com/services/oauth/request_token";
+        private static readonly string _authorizeUri = "https://secure.flickr.com/services/oauth/authorize?oauth_token={0}&perms={1}";
+        private static readonly string _accessTokenUri = "https://www.flickr.com/services/oauth/access_token";
         private static readonly string _apiServiceUri = "https://api.flickr.com/services/rest";
         private static readonly string _apiUploadUri = "https://api.flickr.com/services/upload";
-        private string _oauthConsumerKey;
-        private string _oauthConsumerKeySecret;
-        private string _accessToken;
-        private string _accessTokenSecret;
-        private string _apiKey;
+        private readonly string? _oauthConsumerKey;
+        private readonly string? _oauthConsumerKeySecret;
+        private readonly string? _accessToken;
+        private readonly string? _accessTokenSecret;
+        private readonly string? _apiKey;
 
         #endregion
 
@@ -78,7 +78,7 @@ namespace Open.Flickr
 
         #region ** public methods
 
-        public async Task<User> GetUserInfoAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<User?> GetUserInfoAsync(CancellationToken cancellationToken = default)
         {
             var uri = BuildApiUri("flickr.test.login");
             var client = CreateClient();
@@ -97,7 +97,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task<Photo2> GetPhotoAsync(string photoId, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Photo2?> GetPhotoAsync(string photoId, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -120,7 +120,7 @@ namespace Open.Flickr
             throw await ProcessException(response.Content);
         }
 
-        public async Task<PhotoSizeCollection> GetPhotoSizesAsync(string photoId, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<PhotoSizeCollection?> GetPhotoSizesAsync(string photoId, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -144,7 +144,7 @@ namespace Open.Flickr
             throw await ProcessException(response.Content);
         }
 
-        public async Task<Photosets> GetPhotosetsAsync(int page, int perPage, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Photosets?> GetPhotosetsAsync(int page, int perPage, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -157,7 +157,7 @@ namespace Open.Flickr
             var response = await client.GetAsync(uri, cancellationToken);
             if (response.IsSuccessStatusCode)
             {
-                return (await response.Content.ReadJsonAsync<PhotosetsResult>()).photosets;
+                return (await response.Content.ReadJsonAsync<PhotosetsResult>()).Photosets;
             }
             else
             {
@@ -165,7 +165,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task<Photoset2> GetPhotosAsync(string photosetId, string extras = null, int? page = null, int? perPage = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Photoset2?> GetPhotosAsync(string photosetId, string? extras = null, int? page = null, int? perPage = null, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -183,7 +183,7 @@ namespace Open.Flickr
             var response = await client.GetAsync(uri, cancellationToken);
             if (response.IsSuccessStatusCode)
             {
-                return (await response.Content.ReadJsonAsync<PhotosetResult>()).photoset;
+                return (await response.Content.ReadJsonAsync<PhotosetResult>()).Photoset;
             }
             else
             {
@@ -191,7 +191,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task<Photoset> GetUserPhotosAsync(string userId, string query = null, string extras = null, int? page = null, int? perPage = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Photoset?> GetUserPhotosAsync(string userId, string? query = null, string? extras = null, int? page = null, int? perPage = null, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -219,7 +219,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task<Comments> GetPhotosCommentsAsync(string photoId, string minCommentDate, string maxCommentDate, int offset, int limit, CancellationToken cancellationToken)
+        public async Task<Comments?> GetPhotosCommentsAsync(string photoId, string minCommentDate, string maxCommentDate, int offset, int limit, CancellationToken cancellationToken)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -243,7 +243,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task<Comment> AddCommentAsync(string photoId, string commentText, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Comment?> AddCommentAsync(string photoId, string commentText, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
             {
@@ -264,7 +264,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task<Photoset> CreateAlbumAsync(string title, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<Photoset> CreateAlbumAsync(string title, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
                 {
@@ -300,7 +300,7 @@ namespace Open.Flickr
         {
             var parameters = new Dictionary<string, string>
             {
-                { "title", file.Title },
+                { "title", file.Title ?? "" },
                 { "is_public", file.IsPublic.ToString() },
                 { "is_friend", file.IsFriend.ToString() },
                 { "is_family", file.IsFamily.ToString() },
@@ -322,15 +322,16 @@ namespace Open.Flickr
                 parameters.Add("hidden", file.Hidden);
             }
 
-            string authorizationheader;
-            var uri = BuildUploadApiUri(out authorizationheader, parameters);
+            var uri = BuildUploadApiUri(out string authorizationheader, parameters);
             var client = CreateClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("OAuth", authorizationheader);
-            var content = new MultipartFormDataContent();
-            content.Add(new StringContent(file.Title), "title");
-            content.Add(new StringContent(file.IsPublic.ToString()), "is_public");
-            content.Add(new StringContent(file.IsFriend.ToString()), "is_friend");
-            content.Add(new StringContent(file.IsFamily.ToString()), "is_family");
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(file.Title), "title" },
+                { new StringContent(file.IsPublic.ToString()), "is_public" },
+                { new StringContent(file.IsFriend.ToString()), "is_friend" },
+                { new StringContent(file.IsFamily.ToString()), "is_family" }
+            };
             if (!string.IsNullOrWhiteSpace(file.Description))
             {
                 content.Add(new StringContent(file.Description), "description");
@@ -375,7 +376,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task UpdatePhotoAsync(string photoId, string title, string description = null, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task UpdatePhotoAsync(string photoId, string title, string? description = null, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
                 {
@@ -403,7 +404,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task UpdateCommentAsync(string commentId, string commentText, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task UpdateCommentAsync(string commentId, string commentText, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
                 {
@@ -427,7 +428,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task DeletePhotosetAsync(string photosetId, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task DeletePhotosetAsync(string photosetId, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
                 {
@@ -450,7 +451,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task DeletePhotoAsync(string photoId, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task DeletePhotoAsync(string photoId, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
                 {
@@ -473,7 +474,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task DeleteCommentAsync(string commentId, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task DeleteCommentAsync(string commentId, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
                 {
@@ -496,7 +497,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task RemovePhotoFromPhotosetAsync(string photosetId, string photoId, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task RemovePhotoFromPhotosetAsync(string photosetId, string photoId, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
                 {
@@ -520,7 +521,7 @@ namespace Open.Flickr
             }
         }
 
-        public async Task AddPhotoToPhotosetAsync(string photosetId, string photoId, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task AddPhotoToPhotosetAsync(string photosetId, string photoId, CancellationToken cancellationToken = default)
         {
             var parameters = new Dictionary<string, string>
                 {
@@ -548,13 +549,13 @@ namespace Open.Flickr
 
         #region ** implementation
 
-        private Uri BuildUploadApiUri(out string authorizationheader, Dictionary<string, string> parameters = null)
+        private Uri BuildUploadApiUri(out string authorizationheader, Dictionary<string, string>? parameters = null)
         {
             authorizationheader = OAuthClient.CreateOAuthAuthorizationToken(_apiUploadUri, _oauthConsumerKey, _oauthConsumerKeySecret, _accessToken, _accessTokenSecret, parameters: parameters, mode: "POST");
             return new Uri(_apiUploadUri);
         }
 
-        private Uri BuildApiUri(string method, string mode = "GET", Dictionary<string, string> parameters = null)
+        private Uri BuildApiUri(string method, string mode = "GET", Dictionary<string, string>? parameters = null)
         {
             if (parameters == null)
             {
@@ -570,7 +571,7 @@ namespace Open.Flickr
             }
             else
             {
-                parameters.Add("api_key", _apiKey);
+                parameters.Add("api_key", _apiKey ?? "");
                 List<string> keys = parameters.Select(p => $"{p.Key}={p.Value}").ToList();
 
                 return new Uri($"{_apiServiceUri}?{string.Join("&", keys)}");
@@ -579,8 +580,10 @@ namespace Open.Flickr
 
         private static HttpClient CreateClient()
         {
-            var client = new HttpClient();
-            client.Timeout = Timeout.InfiniteTimeSpan;
+            var client = new HttpClient
+            {
+                Timeout = Timeout.InfiniteTimeSpan
+            };
             return client;
         }
 

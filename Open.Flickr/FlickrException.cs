@@ -4,7 +4,7 @@ namespace Open.Flickr
 {
     public class FlickrException : Exception
     {
-        public FlickrException(int code, string message)
+        public FlickrException(int code, string? message)
             : base(message)
         {
             Code = code;
